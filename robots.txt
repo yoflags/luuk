@@ -1,0 +1,5 @@
+# luuknijsen.com
+User-agent: *
+Allow: /
+
+Sitemap: https://luuknijsen.com/sitemap.xml

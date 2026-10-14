@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  // Thema zetten voordat er iets getekend wordt: opgeslagen keuze wint, anders het systeemthema.
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("theme"); } catch (e) {}
+    var dark = t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (dark) document.documentElement.classList.add("dark");
+  })();
+</script>
+<title>Luuk Nijsen</title>
+<meta name="description" content="Luuk Nijsen: startpunt voor Plex, audioboeken, e-boeken, Glashelder Cranendonck en LinkedIn.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#18181b" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://luuknijsen.com/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Luuk Nijsen">
+<meta property="og:locale" content="nl_NL">
+<meta property="og:url" content="https://luuknijsen.com/">
+<meta property="og:title" content="Luuk Nijsen">
+<meta property="og:description" content="Mijn startpunt op het web: media, mijn bedrijf Glashelder Cranendonck, LinkedIn en de status van mijn services.">
+<meta property="og:image" content="https://luuknijsen.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Luuk Nijsen, luuknijsen.com">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Luuk Nijsen">
+<meta name="twitter:description" content="Mijn startpunt op het web: media, mijn bedrijf Glashelder Cranendonck, LinkedIn en de status van mijn services.">
+<meta name="twitter:image" content="https://luuknijsen.com/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #3f3f46;
+    --fg-strong: #18181b;
+    --muted: #71717a;
+    --border: #e4e4e7;
+    --surface: #fafafa;
+    --surface-hover: #f4f4f5;
+    --header-bg: rgba(255, 255, 255, 0.75);
+    --primary: #6366f1;
+    --primary-soft: rgba(99, 102, 241, 0.1);
+    --btn-bg: #18181b;
+    --btn-fg: #ffffff;
+    --btn-hover: #27272a;
+    --grid: rgba(24, 24, 27, 0.14);
+    --header-height: 65px;
+  }
+  html.dark {
+    --bg: #18181b;
+    --fg: #e4e4e7;
+    --fg-strong: #ffffff;
+    --muted: #a1a1aa;
+    --border: #27272a;
+    --surface: #27272a;
+    --surface-hover: #2f2f33;
+    --header-bg: rgba(24, 24, 27, 0.75);
+    --primary: #818cf8;
+    --primary-soft: rgba(129, 140, 248, 0.1);
+    --btn-bg: #ffffff;
+    --btn-fg: #18181b;
+    --btn-hover: #f4f4f5;
+    --grid: rgba(255, 255, 255, 0.16);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { width: 100%; max-width: 80rem; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 640px) { .container { padding: 0 24px; } }
+  @media (min-width: 1024px) { .container { padding: 0 32px; } }
+
+  /* Header */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--header-bg);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner { height: var(--header-height); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .brand { display: flex; align-items: flex-end; gap: 6px; font-weight: 700; font-size: 20px; color: var(--fg-strong); }
+  .badge {
+    display: inline-flex; align-items: center; font-weight: 500; font-size: 12px; line-height: 1;
+    padding: 6px 8px; border-radius: 6px; margin-bottom: 2px;
+    color: var(--primary); background: var(--primary-soft);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 25%, transparent);
+  }
+  nav ul { display: none; list-style: none; gap: 32px; }
+  @media (min-width: 768px) { nav ul { display: flex; } }
+  nav a { font-size: 14px; font-weight: 600; transition: color .15s; }
+  nav a:hover { color: var(--primary); }
+  .header-side { flex: 1; display: flex; }
+  .header-side.right { justify-content: flex-end; }
+  .icon-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 6px; border-radius: 6px; border: 0; background: transparent; cursor: pointer;
+    color: var(--fg); transition: background .15s, color .15s;
+  }
+  .icon-btn:hover { background: var(--surface); color: var(--fg-strong); }
+  .icon-btn svg { width: 20px; height: 20px; }
+  .icon-sun { display: none; }
+  html.dark .icon-sun { display: block; }
+  html.dark .icon-moon { display: none; }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--border); }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(to right, var(--grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+    background-size: 78px 78px;
+    background-position: center top;
+    -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 0%, #000 0%, transparent 100%);
+            mask-image: radial-gradient(ellipse 70% 80% at 50% 0%, #000 0%, transparent 100%);
+  }
+  .hero-inner {
+    position: relative; z-index: 1;
+    padding: 96px 0 104px;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 14px; font-weight: 500; padding: 4px 12px; border-radius: 999px;
+    color: var(--primary); background: var(--primary-soft);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 25%, transparent);
+    margin-bottom: 32px;
+  }
+  .pill .dot {
+    --dot: #a1a1aa;
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    background: var(--dot); box-shadow: 0 0 0 3px color-mix(in srgb, var(--dot) 22%, transparent);
+    transition: background .3s, box-shadow .3s;
+  }
+  .pill[data-status="up"] .dot { --dot: #22c55e; }
+  .pill[data-status="degraded"] .dot { --dot: #f59e0b; }
+  .pill[data-status="down"] .dot { --dot: #ef4444; }
+  .pill[data-status="loading"] .dot { animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .35; } }
+  @media (prefers-reduced-motion: reduce) { .pill[data-status="loading"] .dot { animation: none; } }
+  h1 {
+    font-size: clamp(40px, 8vw, 72px); line-height: 1.08;
+    font-weight: 700; letter-spacing: -0.025em; color: var(--fg-strong);
+    max-width: 14ch;
+  }
+  .lead { margin-top: 24px; max-width: 42rem; font-size: 18px; color: var(--fg); }
+  .actions { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 6px; font-size: 16px; font-weight: 500;
+    cursor: pointer; border: 0; font-family: inherit; transition: background .15s;
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  }
+  .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .btn-primary { background: var(--btn-bg); color: var(--btn-fg); }
+  .btn-primary:hover { background: var(--btn-hover); }
+  .btn-secondary {
+    background: var(--surface); color: var(--fg);
+    box-shadow: inset 0 0 0 1px var(--border), 0 1px 2px rgba(0,0,0,.05);
+  }
+  .btn-secondary:hover { background: var(--surface-hover); }
+
+  /* Sections */
+  section.block { padding: 80px 0; }
+  .section-head { text-align: center; max-width: 42rem; margin: 0 auto 64px; }
+  h2 { font-size: clamp(30px, 5vw, 48px); line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; color: var(--fg-strong); }
+  .section-head p { margin-top: 16px; font-size: 18px; color: var(--fg); }
+
+  .grid { display: grid; gap: 24px; grid-template-columns: 1fr; }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .card {
+    display: flex; flex-direction: column; gap: 4px;
+    padding: 24px; border-radius: 12px;
+    border: 1px solid var(--border); background: transparent;
+    transition: border-color .15s, background .15s, transform .15s;
+  }
+  a.card:hover, .card.interactive:hover { border-color: color-mix(in srgb, var(--primary) 55%, var(--border)); background: var(--primary-soft); }
+  .card .icon { width: 28px; height: 28px; color: var(--fg-strong); margin-bottom: 12px; }
+  .card h3 { font-size: 16px; font-weight: 600; color: var(--fg-strong); }
+  .card p { font-size: 16px; color: var(--muted); }
+  .group + .group { margin-top: 48px; }
+  .group-title { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .link-cta { margin-top: auto; padding-top: 16px; font-size: 14px; font-weight: 600; color: var(--primary); display: inline-flex; align-items: center; gap: 6px; }
+  .link-cta svg { width: 16px; height: 16px; transition: transform .15s; }
+  a.card:hover .link-cta svg { transform: translateX(3px); }
+
+  /* Footer */
+  footer { margin-top: auto; border-top: 1px solid var(--border); }
+  .footer-inner { padding: 32px 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  @media (min-width: 1024px) { .footer-inner { padding: 16px 0; flex-direction: row; justify-content: space-between; } }
+  .footer-inner small { font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="header-side">
+      <a href="/" class="brand" aria-label="Luuk Nijsen">Luuk <span class="badge">Nijsen</span></a>
+    </div>
+    <nav aria-label="Hoofdmenu">
+      <ul>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#projecten">Werk</a></li>
+        <li><a href="https://status.luuknijsen.com">Status</a></li>
+        <li><a href="https://www.linkedin.com/in/luuk-nijsen/" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </nav>
+    <div class="header-side right">
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Thema wisselen">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="container hero-inner">
+      <a href="https://status.luuknijsen.com" class="pill" id="status-pill" data-status="loading"><span class="dot" aria-hidden="true"></span> <span id="status-text" aria-live="polite">Status ophalen...</span></a>
+      <h1>Luuk Nijsen</h1>
+      <p class="lead">Mijn startpunt op het web. Van hier ga je door naar mijn media, mijn bedrijf en mijn profiel.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#links">
+          Bekijk links
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+        </a>
+        <a class="btn btn-secondary" href="https://www.linkedin.com/in/luuk-nijsen/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <section class="block" id="links">
+    <div class="container">
+      <div class="group" id="media">
+        <h2 class="group-title">Media</h2>
+        <div class="grid">
+          <a class="card" href="https://app.plex.tv">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="m10 8.5 5 2.5-5 2.5z"/><path d="M8 21h8"/></svg>
+            <h3>Plex</h3>
+            <p>Stream films en series met je eigen Plex-account.</p>
+            <span class="link-cta">Open Plex <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </a>
+
+          <a class="card" href="https://audiobooks.luuknijsen.com">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg>
+            <h3>Audioboeken</h3>
+            <p>Mijn bibliotheek met audioboeken. Luister verder waar je gebleven was.</p>
+            <span class="link-cta">Open audioboeken <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </a>
+
+          <a class="card" href="https://ebooks.luuknijsen.com">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg>
+            <h3>E-boeken</h3>
+            <p>Mijn bibliotheek met e-boeken. Lees online of download naar je e-reader.</p>
+            <span class="link-cta">Open e-boeken <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="group" id="projecten">
+        <h2 class="group-title">Werk, profiel &amp; status</h2>
+        <div class="grid">
+          <a class="card" href="https://glasheldercranendonck.nl" target="_blank" rel="noopener">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M2 13h20M10 13v2h4v-2"/></svg>
+            <h3>Glashelder Cranendonck</h3>
+            <p>Medeoprichter en eigenaar van Glashelder Cranendonck, een glazenwassersbedrijf in Budel</p>
+            <span class="link-cta">Open website <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+          </a>
+
+          <a class="card" href="https://www.linkedin.com/in/luuk-nijsen/" target="_blank" rel="noopener">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
+            <h3>LinkedIn</h3>
+            <p>Mijn professionele profiel, ervaring en netwerk.</p>
+            <span class="link-cta">Open profiel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+          </a>
+
+          <a class="card" href="https://status.luuknijsen.com">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+            <h3>Status</h3>
+            <p>Bekijk of alle services online zijn en draaien zoals het hoort.</p>
+            <span class="link-cta">Open status <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <small>&copy; <span id="year">2026</span> Luuk Nijsen. Alle rechten voorbehouden.</small>
+    <small><a href="mailto:luuk@nijsen.dev">luuk@nijsen.dev</a></small>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var media = window.matchMedia("(prefers-color-scheme: dark)");
+
+    // Volg het systeemthema zolang er geen eigen keuze is opgeslagen.
+    var onSystemChange = function (e) {
+      var saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (err) {}
+      if (!saved) root.classList.toggle("dark", e.matches);
+    };
+    if (media.addEventListener) media.addEventListener("change", onSystemChange);
+    else if (media.addListener) media.addListener(onSystemChange);
+
+    // De knop slaat een eigen keuze op. Kies je weer hetzelfde als het systeem, dan volgt de site het systeem opnieuw.
+    document.getElementById("theme-toggle").addEventListener("click", function () {
+      var dark = root.classList.toggle("dark");
+      try {
+        if (dark === media.matches) localStorage.removeItem("theme");
+        else localStorage.setItem("theme", dark ? "dark" : "light");
+      } catch (e) {}
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Live status uit Uptime Kuma (publieke statuspagina-API).
+    var STATUS_BASE = "https://status.luuknijsen.com";
+    var STATUS_SLUG = "server"; // de slug van je statuspagina in Uptime Kuma
+    var pill = document.getElementById("status-pill");
+    var label = document.getElementById("status-text");
+
+    var setStatus = function (state, text) {
+      pill.setAttribute("data-status", state);
+      label.textContent = text;
+    };
+
+    var checkStatus = function () {
+      var ctrl = window.AbortController ? new AbortController() : null;
+      var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 8000) : null;
+      fetch(STATUS_BASE + "/api/status-page/heartbeat/" + encodeURIComponent(STATUS_SLUG), {
+        cache: "no-store",
+        signal: ctrl ? ctrl.signal : undefined
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          var list = data.heartbeatList || {};
+          var total = 0, up = 0, down = 0;
+          Object.keys(list).forEach(function (id) {
+            var beats = list[id];
+            if (!beats || !beats.length) return;
+            var last = beats[beats.length - 1].status; // 0 down, 1 up, 2 pending, 3 onderhoud
+            total++;
+            if (last === 1) up++;
+            else if (last === 0) down++;
+          });
+          if (!total) setStatus("unknown", "Status onbekend");
+          else if (up === total) setStatus("up", "Alle services online");
+          else if (down === total) setStatus("down", "Services offline");
+          else if (down > 0) setStatus("degraded", down + " van " + total + " services offline");
+          else setStatus("degraded", "Gedeeltelijke storing of onderhoud");
+        })
+        .catch(function () { setStatus("unknown", "Status onbekend"); })
+        .then(function () { if (timer) clearTimeout(timer); });
+    };
+
+    checkStatus();
+    setInterval(function () { if (!document.hidden) checkStatus(); }, 60000);
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) checkStatus(); });
+  })();
+</script>
+</body>
+</html>
